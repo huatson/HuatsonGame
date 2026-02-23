@@ -1,3 +1,20 @@
+# HUATSON GAME
+Content
+Content/*
+DerivedDataCache
+DerivedDataCache/*
+Intermediate
+Intermediate/*
+Saved
+Saved/*
+Build
+Build/*
+Binaries
+Binaries/*
+
+.vsconfig
+.vs
+
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio
 
@@ -501,23 +518,3 @@ Plugins/**/Binaries/*
 Plugins/**/Intermediate/*
 
 # End of https://www.toptal.com/developers/gitignore/api/unrealengine
-
-
-# custom
-*.sln
-HuatsonGame.sln
-Content
-Content/*
-DerivedDataCache
-DerivedDataCache/*
-Intermediate
-Intermediate/*
-Saved
-Saved/*
-Build
-Build/*
-Binaries
-Binaries/*
-
-.vsconfig
-.vs

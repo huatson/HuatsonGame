@@ -44,7 +44,6 @@ public class HuatsonGame : ModuleRules
 				"NetCore",
 				"RHI",
 				"Projects",
-				"Gauntlet",
 				"UMG",
 				"AudioMixer",
 				"NetworkReplayStreaming",
