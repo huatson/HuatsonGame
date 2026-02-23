@@ -1,0 +1,15 @@
+Content
+Content/*
+DerivedDataCache
+DerivedDataCache/*
+Intermediate
+Intermediate/*
+Saved
+Saved/*
+Build
+Build/*
+Binaries
+Binaries/*
+*.sln
+.vsconfig
+.vs
