@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+using System.Security.AccessControl;
 using UnrealBuildTool;
 using UnrealBuildTool.Rules;
 
@@ -31,7 +32,11 @@ public class HuatsonGame : ModuleRules
                 "GameplayTags",
                 "GameplayTasks",
                 "AIModule",
-				"Niagara",
+				"ReplicationGraph",
+                "ControlFlows",
+                "ModularGameplay",
+                "DataRegistry",
+                "Niagara",
 				"PropertyPath"
 			}
 		);
@@ -48,7 +53,10 @@ public class HuatsonGame : ModuleRules
 				"RHI",
 				"Projects",
 				"UMG",
-				"AudioMixer",
+                "CommonUI",
+                "CommonInput",
+                "GameplayMessageRuntime",
+                "AudioMixer",
 				"NetworkReplayStreaming",
 				"ClientPilot",
 				"EngineSettings",
