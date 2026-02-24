@@ -4,6 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Teams/HuatsonTeamAgentInterface.h"
+#include "GameplayTagAssetInterface.h"
 
 #include "HuatsonCharacter.generated.h"
 
@@ -14,6 +15,7 @@ struct FGenericTeamId;
 class AActor;
 class AController;
 class AHuatsonPlayerController;
+class AHuatsonPlayerState;
 class FLifetimeProperty;
 class IRepChangedPropertyTracker;
 class UInputComponent;
@@ -88,6 +90,8 @@ struct TStructOpsTypeTraits<FSharedRepMovement> : public TStructOpsTypeTraitsBas
  *	The base character pawn class used by this project.
  *	Responsible for sending events to pawn components.
  *	New behavior should be added via pawn components when possible.
+ * 
+ *	TODO: public IGameplayTagAssetInterface
  */
 UCLASS(MinimalAPI, Config = Game, Meta = (ShortTooltip = "The base character pawn class used by this project."))
 class AHuatsonCharacter : public ACharacter, public IHuatsonTeamAgentInterface
@@ -104,6 +108,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Huatson|Character")
 	UE_API AHuatsonPlayerState* GetHuatsonPlayerState() const;
 
+	//UE_API virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+	//UE_API virtual bool HasMatchingGameplayTag(FGameplayTag TagToCheck) const override;
+	//UE_API virtual bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
+	//UE_API virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
 
 	UE_API void ToggleCrouch();
 
@@ -145,7 +153,7 @@ protected:
 
 	UE_API virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
-
+	UE_API void InitializeGameplayTags();
 
 	// Begins the death sequence for the character (disables collision, disables movement, etc...)
 	UFUNCTION()

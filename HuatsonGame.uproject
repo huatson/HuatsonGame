@@ -68,11 +68,23 @@
 			"Enabled": true
 		},
 		{
-			"Name": "ModularGameplay",
+			"Name": "GameplayAbilities",
 			"Enabled": true
 		},
 		{
 			"Name": "CommonUI",
+			"Enabled": true
+		},
+		{
+			"Name": "GameFeatures",
+			"Enabled": true
+		},
+		{
+			"Name": "ModularGameplay",
+			"Enabled": true
+		},
+		{
+			"Name": "EnhancedInput",
 			"Enabled": true
 		},
 		{

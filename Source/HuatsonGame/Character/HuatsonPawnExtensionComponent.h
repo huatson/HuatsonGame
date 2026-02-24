@@ -12,6 +12,7 @@
 namespace EEndPlayReason { enum Type : int; }
 
 class UGameFrameworkComponentManager;
+class UHuatsonPawnData;
 class UObject;
 struct FActorInitStateChangedParams;
 struct FFrame;
@@ -45,6 +46,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Huatson|Pawn")
 	static UHuatsonPawnExtensionComponent* FindPawnExtensionComponent(const AActor* Actor) { return (Actor ? Actor->FindComponentByClass<UHuatsonPawnExtensionComponent>() : nullptr); }
 
+	/** Gets the pawn data, which is used to specify pawn properties in data */
+	template <class T>
+	const T* GetPawnData() const { return Cast<T>(PawnData); }
+
+	/** Sets the current pawn data */
+	UE_API void SetPawnData(const UHuatsonPawnData* InPawnData);
+
+
 	/** Should be called by the owning pawn when the pawn's controller changes. */
 	UE_API void HandleControllerChanged();
 
@@ -63,6 +72,10 @@ protected:
 
 	UFUNCTION()
 	UE_API void OnRep_PawnData();
+
+	/** Pawn data used to create the pawn. Specified from a spawn function or on a placed instance. */
+	UPROPERTY(EditInstanceOnly, ReplicatedUsing = OnRep_PawnData, Category = "Huatson|Pawn")
+	TObjectPtr<const UHuatsonPawnData> PawnData;
 
 };
 

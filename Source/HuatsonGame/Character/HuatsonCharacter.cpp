@@ -7,10 +7,11 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "HuatsonCharacterMovementComponent.h"
+#include "HuatsonGameplayTags.h"
+#include "HuatsonLogChannels.h"
 #include "Net/UnrealNetwork.h"
 #include "Player/HuatsonPlayerController.h"
 #include "Player/HuatsonPlayerState.h"
-#include "HuatsonLogChannels.h"
 #include "TimerManager.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(HuatsonCharacter)
@@ -146,7 +147,11 @@ void AHuatsonCharacter::NotifyControllerChanged()
 	// Update our team ID based on the controller
 	if (HasAuthority() && (GetController() != nullptr))
 	{
-
+		if (IHuatsonTeamAgentInterface* ControllerWithTeam = Cast<IHuatsonTeamAgentInterface>(GetController()))
+		{
+			MyTeamID = ControllerWithTeam->GetGenericTeamId();
+			ConditionalBroadcastTeamChanged(this, OldTeamId, MyTeamID);
+		}
 	}
 }
 
@@ -167,6 +172,14 @@ void AHuatsonCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	PawnExtComponent->HandleControllerChanged();
+
+	// Grab the current team ID and listen for future changes
+	if (IHuatsonTeamAgentInterface* ControllerAsTeamProvider = Cast<IHuatsonTeamAgentInterface>(NewController))
+	{
+		MyTeamID = ControllerAsTeamProvider->GetGenericTeamId();
+		ControllerAsTeamProvider->GetTeamChangedDelegateChecked().AddDynamic(this, &ThisClass::OnControllerChangedTeam);
+	}
+	ConditionalBroadcastTeamChanged(this, OldTeamID, MyTeamID);
 }
 
 void AHuatsonCharacter::UnPossessed()
@@ -175,6 +188,10 @@ void AHuatsonCharacter::UnPossessed()
 
 	// Stop listening for changes from the old controller
 	const FGenericTeamId OldTeamID = MyTeamID;
+	if (IHuatsonTeamAgentInterface* ControllerAsTeamProvider = Cast<IHuatsonTeamAgentInterface>(OldController))
+	{
+		ControllerAsTeamProvider->GetTeamChangedDelegateChecked().RemoveAll(this);
+	}
 
 	Super::UnPossessed();
 
@@ -182,6 +199,7 @@ void AHuatsonCharacter::UnPossessed()
 
 	// Determine what the new team ID should be afterwards
 	MyTeamID = DetermineNewTeamAfterPossessionEnds(OldTeamID);
+	ConditionalBroadcastTeamChanged(this, OldTeamID, MyTeamID);
 
 }
 
@@ -205,6 +223,35 @@ void AHuatsonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	PawnExtComponent->SetupPlayerInputComponent();
 }
+
+void AHuatsonCharacter::InitializeGameplayTags()
+{
+	// Clear tags that may be lingering on the ability system from the previous pawn.
+	//if (ULyraAbilitySystemComponent* LyraASC = GetLyraAbilitySystemComponent())
+	//{
+	//	for (const TPair<uint8, FGameplayTag>& TagMapping : HuatsonGameplayTags::MovementModeTagMap)
+	//	{
+	//		if (TagMapping.Value.IsValid())
+	//		{
+	//			LyraASC->SetLooseGameplayTagCount(TagMapping.Value, 0);
+	//		}
+	//	}
+	//	for (const TPair<uint8, FGameplayTag>& TagMapping : HuatsonGameplayTags::CustomMovementModeTagMap)
+	//	{
+	//		if (TagMapping.Value.IsValid())
+	//		{
+	//			LyraASC->SetLooseGameplayTagCount(TagMapping.Value, 0);
+	//		}
+	//	}
+	//	UHuatsonCharacterMovementComponent* HuatsonMoveComp = CastChecked<UHuatsonCharacterMovementComponent>(GetCharacterMovement());
+	//	SetMovementModeTag(HuatsonMoveComp->MovementMode, HuatsonMoveComp->CustomMovementMode, true);
+	//}
+
+	UHuatsonCharacterMovementComponent* HuatsonMoveComp = CastChecked<UHuatsonCharacterMovementComponent>(GetCharacterMovement());
+	SetMovementModeTag(HuatsonMoveComp->MovementMode, HuatsonMoveComp->CustomMovementMode, true);
+}
+
+
 
 void AHuatsonCharacter::OnDeathStarted(AActor*)
 {
