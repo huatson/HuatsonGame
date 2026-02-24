@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
+using UnrealBuildTool.Rules;
 
 public class HuatsonGame : ModuleRules
 {
@@ -27,7 +28,9 @@ public class HuatsonGame : ModuleRules
 				"ApplicationCore",
 				"Engine",
 				"PhysicsCore",
-				"AIModule",
+                "GameplayTags",
+                "GameplayTasks",
+                "AIModule",
 				"Niagara",
 				"PropertyPath"
 			}
