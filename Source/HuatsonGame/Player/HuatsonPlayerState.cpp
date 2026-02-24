@@ -97,7 +97,7 @@ void AHuatsonPlayerState::SetGenericTeamId(const FGenericTeamId& NewTeamID)
 	{
 		const FGenericTeamId OldTeamID = MyTeamID;
 
-		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, MyTeamID, this);
+		//MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, MyTeamID, this);
 		MyTeamID = NewTeamID;
 		ConditionalBroadcastTeamChanged(this, OldTeamID, NewTeamID);
 	}
@@ -142,7 +142,7 @@ void AHuatsonPlayerState::SetReplicatedViewRotation(const FRotator& NewRotation)
 {
 	if (NewRotation != ReplicatedViewRotation)
 	{
-		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, ReplicatedViewRotation, this);
+		//MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, ReplicatedViewRotation, this);
 		ReplicatedViewRotation = NewRotation;
 	}
 }
@@ -162,7 +162,7 @@ void AHuatsonPlayerState::PostInitializeComponents()
 
 void AHuatsonPlayerState::SetPlayerConnectionType(EHuatsonPlayerConnectionType NewType)
 {
-	MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, MyPlayerConnectionType, this);
+	//MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, MyPlayerConnectionType, this);
 	MyPlayerConnectionType = NewType;
 }
 
@@ -170,7 +170,7 @@ void AHuatsonPlayerState::SetSquadID(int32 NewSquadId)
 {
 	if (HasAuthority())
 	{
-		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, MySquadID, this);
+		//MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, MySquadID, this);
 
 		MySquadID = NewSquadId;
 	}

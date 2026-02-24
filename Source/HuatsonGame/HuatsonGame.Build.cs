@@ -55,7 +55,6 @@ public class HuatsonGame : ModuleRules
 				"UMG",
                 "CommonUI",
                 "CommonInput",
-                "GameplayMessageRuntime",
                 "AudioMixer",
 				"NetworkReplayStreaming",
 				"ClientPilot",

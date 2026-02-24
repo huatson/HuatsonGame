@@ -343,7 +343,10 @@ FGenericTeamId AHuatsonCharacter::GetGenericTeamId() const
 	return MyTeamID;
 }
 
-
+FOnHuatsonTeamIndexChangedDelegate* AHuatsonCharacter::GetOnTeamIndexChangedDelegate()
+{
+	return &OnTeamChangedDelegate;
+}
 void AHuatsonCharacter::OnControllerChangedTeam(UObject* TeamAgent, int32 OldTeam, int32 NewTeam)
 {
 	const FGenericTeamId MyOldTeamID = MyTeamID;

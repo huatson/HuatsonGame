@@ -185,6 +185,8 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_MyTeamID)
 	FGenericTeamId MyTeamID;
 
+	UPROPERTY()
+	FOnHuatsonTeamIndexChangedDelegate OnTeamChangedDelegate;
 
 
 protected:
